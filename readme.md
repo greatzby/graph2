@@ -71,4 +71,14 @@ The  (optional) configurations include
 The results will be stored in "out_dir = f'out/{dataset}_{config}_{num_nodes}/pred_test_{ckpt_iter}.txt'", and will show the error type.
     
 
- 
+ If you want a quick and easy way to get familiar with this repository, please follow the workflow below step by step without changing any parameters:
+
+
+    python data/simple_graph/create_graph.py
+    python data/simple_graph/prepare_minigpt.py
+    python train.py --n_embd 10 --max_iters 200
+
+
+
+
+Just run these three commands in order and you’ll quickly obtain an effective training result. Give it a try!
