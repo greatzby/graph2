@@ -71,6 +71,8 @@ The  (optional) configurations include
 The results will be stored in "out_dir = f'out/{dataset}_{config}_{num_nodes}/pred_test_{ckpt_iter}.txt'", and will show the error type.
     
 
+## A Quick Start
+
  If you want a quick and easy way to get familiar with this repository, please follow the workflow below step by step without changing any parameters:
 
 
