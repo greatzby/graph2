@@ -1,0 +1,122 @@
+[INFO] step 0: train loss 4.6249, val loss 4.6235
+[INFO] iter 0: loss 4.6266
+[INFO] iter 2: loss 4.6250
+[INFO] iter 4: loss 4.6292
+[INFO] iter 6: loss 4.6126
+[INFO] iter 8: loss 4.6222
+[INFO] iter 10: loss 4.6173
+[INFO] iter 12: loss 4.6138
+[INFO] iter 14: loss 4.6119
+[INFO] iter 16: loss 4.6065
+[INFO] iter 18: loss 4.6052
+[INFO] step 20: train loss 4.5946, val loss 4.5944
+[INFO] saving checkpoint to out/simple_graph_1_1_10_100
+[INFO] iter 20: loss 4.5876
+[INFO] iter 22: loss 4.5902
+[INFO] iter 24: loss 4.5869
+[INFO] iter 26: loss 4.5796
+[INFO] iter 28: loss 4.5815
+[INFO] iter 30: loss 4.5767
+[INFO] iter 32: loss 4.5729
+[INFO] iter 34: loss 4.5700
+[INFO] iter 36: loss 4.5675
+[INFO] iter 38: loss 4.5524
+[INFO] step 40: train loss 4.5544, val loss 4.5558
+[INFO] saving checkpoint to out/simple_graph_1_1_10_100
+[INFO] iter 40: loss 4.5582
+[INFO] iter 42: loss 4.5427
+[INFO] iter 44: loss 4.5503
+[INFO] iter 46: loss 4.5357
+[INFO] iter 48: loss 4.5366
+[INFO] iter 50: loss 4.5292
+[INFO] iter 52: loss 4.5248
+[INFO] iter 54: loss 4.5332
+[INFO] iter 56: loss 4.5179
+[INFO] iter 58: loss 4.5204
+[INFO] step 60: train loss 4.5148, val loss 4.5134
+[INFO] saving checkpoint to out/simple_graph_1_1_10_100
+[INFO] iter 60: loss 4.5143
+[INFO] iter 62: loss 4.5115
+[INFO] iter 64: loss 4.5015
+[INFO] iter 66: loss 4.4936
+[INFO] iter 68: loss 4.4911
+[INFO] iter 70: loss 4.5022
+[INFO] iter 72: loss 4.4890
+[INFO] iter 74: loss 4.4845
+[INFO] iter 76: loss 4.4952
+[INFO] iter 78: loss 4.4778
+[INFO] step 80: train loss 4.4821, val loss 4.4806
+[INFO] saving checkpoint to out/simple_graph_1_1_10_100
+[INFO] iter 80: loss 4.4932
+[INFO] iter 82: loss 4.4814
+[INFO] iter 84: loss 4.4829
+[INFO] iter 86: loss 4.4679
+[INFO] iter 88: loss 4.4667
+[INFO] iter 90: loss 4.4581
+[INFO] iter 92: loss 4.4717
+[INFO] iter 94: loss 4.4572
+[INFO] iter 96: loss 4.4455
+[INFO] iter 98: loss 4.4649
+[INFO] step 100: train loss 4.4538, val loss 4.4537
+[INFO] saving checkpoint to out/simple_graph_1_1_10_100
+[INFO] iter 100: loss 4.4616
+[INFO] iter 102: loss 4.4428
+[INFO] iter 104: loss 4.4386
+[INFO] iter 106: loss 4.4521
+[INFO] iter 108: loss 4.4451
+[INFO] iter 110: loss 4.4476
+[INFO] iter 112: loss 4.4371
+[INFO] iter 114: loss 4.4450
+[INFO] iter 116: loss 4.4295
+[INFO] iter 118: loss 4.4412
+[INFO] step 120: train loss 4.4330, val loss 4.4350
+[INFO] saving checkpoint to out/simple_graph_1_1_10_100
+[INFO] iter 120: loss 4.4361
+[INFO] iter 122: loss 4.4357
+[INFO] iter 124: loss 4.4347
+[INFO] iter 126: loss 4.4257
+[INFO] iter 128: loss 4.4287
+[INFO] iter 130: loss 4.4172
+[INFO] iter 132: loss 4.4179
+[INFO] iter 134: loss 4.4197
+[INFO] iter 136: loss 4.4229
+[INFO] iter 138: loss 4.4193
+[INFO] step 140: train loss 4.4175, val loss 4.4139
+[INFO] saving checkpoint to out/simple_graph_1_1_10_100
+[INFO] iter 140: loss 4.4017
+[INFO] iter 142: loss 4.4156
+[INFO] iter 144: loss 4.4063
+[INFO] iter 146: loss 4.4253
+[INFO] iter 148: loss 4.4136
+[INFO] iter 150: loss 4.4075
+[INFO] iter 152: loss 4.4198
+[INFO] iter 154: loss 4.4185
+[INFO] iter 156: loss 4.4069
+[INFO] iter 158: loss 4.4284
+[INFO] step 160: train loss 4.4057, val loss 4.4062
+[INFO] saving checkpoint to out/simple_graph_1_1_10_100
+[INFO] iter 160: loss 4.4066
+[INFO] iter 162: loss 4.4009
+[INFO] iter 164: loss 4.4094
+[INFO] iter 166: loss 4.4029
+[INFO] iter 168: loss 4.4086
+[INFO] iter 170: loss 4.3934
+[INFO] iter 172: loss 4.3968
+[INFO] iter 174: loss 4.4062
+[INFO] iter 176: loss 4.4130
+[INFO] iter 178: loss 4.4018
+[INFO] step 180: train loss 4.3987, val loss 4.4001
+[INFO] saving checkpoint to out/simple_graph_1_1_10_100
+[INFO] iter 180: loss 4.3923
+[INFO] iter 182: loss 4.3912
+[INFO] iter 184: loss 4.4017
+[INFO] iter 186: loss 4.4038
+[INFO] iter 188: loss 4.4026
+[INFO] iter 190: loss 4.3855
+[INFO] iter 192: loss 4.4178
+[INFO] iter 194: loss 4.3805
+[INFO] iter 196: loss 4.4023
+[INFO] iter 198: loss 4.3892
+[INFO] step 200: train loss 4.3928, val loss 4.3930
+[INFO] saving checkpoint to out/simple_graph_1_1_10_100
+[INFO] iter 200: loss 4.3797
