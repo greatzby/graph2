@@ -12,6 +12,7 @@ import argparse
 import glob
 import os
 import pickle
+import re
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -107,12 +108,9 @@ class ModelConfig:
         self.stoi = self.meta.get("stoi", {})
         self.itos = self.meta.get("itos", {})
 
-        # 这里的 vocab_size = num_nodes + 2（0:[PAD], 1:\n, 其余是节点 ID）
-        # 若后续你在 meta 中保存了 num_nodes，可优先使用；否则按 stoi/itos 推断。
         if "num_nodes" in self.meta:
             self.num_nodes = int(self.meta["num_nodes"])
         else:
-            # stoi 中的键包含 '0'~'num_nodes-1'，其值从 2 开始连续
             numeric_tokens = [tok for tok in self.stoi.values() if tok >= 2]
             self.num_nodes = len(numeric_tokens)
 
@@ -124,14 +122,12 @@ class ModelConfig:
     def load_stage_info(self):
         stage_info_path = self._find_file("stage_info.pkl", "stage info")
         if stage_info_path is None:
-            # 没有 stage_info.pkl，则默认所有节点在一个 stage，token 取 stoi[str(i)]
             print("⚠️ stage_info.pkl 未找到，使用 meta.pkl 的顺序节点作为 fallback。")
             if not self.stoi:
                 raise RuntimeError(
                     "meta.pkl 中缺少 stoi 映射，无法推断节点 token。"
                 )
 
-            # 这里假设 stoi 中 '0'...'num_nodes-1' 都存在
             self.S1 = list(range(self.num_nodes))
             self.S2 = []
             self.S3 = []
@@ -163,7 +159,6 @@ class ModelConfig:
             )
             self.num_nodes = total_nodes
 
-        # 如果 stage_info 中给的是实际节点 ID（0..N-1），需要映射到 stoi 中的 token ID
         def node_list_to_tokens(node_list):
             tokens = []
             for node in node_list:
@@ -182,7 +177,6 @@ class ModelConfig:
             set(self.S1_tokens + self.S2_tokens + self.S3_tokens)
         )
 
-        # 建立 node ↔ token 对应关系（假设节点编号与 stage_info 相同）
         self.node_to_token = {node: token for node, token in zip(self.S1, self.S1_tokens)}
         self.node_to_token.update({node: token for node, token in zip(self.S2, self.S2_tokens)})
         self.node_to_token.update({node: token for node, token in zip(self.S3, self.S3_tokens)})
@@ -243,33 +237,41 @@ def extract_W_M_prime(checkpoint_path, config):
 
 
 def locate_checkpoint(checkpoint_dir, iteration=None, checkpoint_path=None):
+    def parse_iteration_from_name(path):
+        filename = os.path.basename(path)
+        match = re.match(r"^(\d+)_ckpt", filename)
+        if match:
+            return int(match.group(1))
+        match = re.search(r"ckpt_(\d+)", filename)
+        if match:
+            return int(match.group(1))
+        digits = re.findall(r"\d+", filename)
+        return int(digits[0]) if digits else -1
+
     if checkpoint_path:
         if not os.path.isfile(checkpoint_path):
             raise FileNotFoundError(f"Checkpoint file not found: {checkpoint_path}")
-        filename = os.path.basename(checkpoint_path)
-        iter_hint = "".join([c for c in filename if c.isdigit()])
-        iteration = int(iter_hint) if iter_hint else None
-        return checkpoint_path, iteration
+        return checkpoint_path, parse_iteration_from_name(checkpoint_path)
 
-    if iteration is not None:
-        candidate = os.path.join(checkpoint_dir, f"ckpt_{iteration}.pt")
-        if not os.path.isfile(candidate):
-            raise FileNotFoundError(f"Checkpoint ckpt_{iteration}.pt not found in {checkpoint_dir}")
-        return candidate, iteration
-
-    pattern = os.path.join(checkpoint_dir, "ckpt_*.pt")
-    matches = glob.glob(pattern)
-    if not matches:
+    pattern = os.path.join(checkpoint_dir, "*ckpt*.pt")
+    all_candidates = glob.glob(pattern)
+    if not all_candidates:
         raise FileNotFoundError(f"No checkpoints matching {pattern}")
 
-    def extract_iter(path):
-        name = os.path.basename(path)
-        digits = "".join([c for c in name if c.isdigit()])
-        return int(digits) if digits else -1
+    if iteration is not None:
+        matches = [p for p in all_candidates if parse_iteration_from_name(p) == iteration]
+        if not matches:
+            raise FileNotFoundError(
+                f"No checkpoint found whose parsed iteration equals {iteration} "
+                f"(searched in {checkpoint_dir})."
+            )
+        matches.sort()
+        chosen = matches[-1]
+        return chosen, parse_iteration_from_name(chosen)
 
-    matches.sort(key=lambda p: extract_iter(p))
-    chosen = matches[-1]
-    return chosen, extract_iter(chosen)
+    all_candidates.sort(key=lambda p: (parse_iteration_from_name(p), p))
+    chosen = all_candidates[-1]
+    return chosen, parse_iteration_from_name(chosen)
 
 
 def plot_W_heatmap(W_sub, node_tokens, output_path, title=None):
@@ -306,9 +308,9 @@ def plot_W_heatmap(W_sub, node_tokens, output_path, title=None):
 
 def main():
     parser = argparse.ArgumentParser(description="Visualize W_M heatmap at a checkpoint.")
-    parser.add_argument("--checkpoint_dir", type=str, required=True, help="Directory containing ckpt_*.pt files.")
+    parser.add_argument("--checkpoint_dir", type=str, required=True, help="Directory containing checkpoint files (e.g., 200_ckpt_20.pt).")
     parser.add_argument("--data_dir", type=str, required=True, help="Directory with meta.pkl (and optionally stage_info.pkl).")
-    parser.add_argument("--iteration", type=int, default=None, help="Iteration number (e.g., 50000). If omitted, use the largest one.")
+    parser.add_argument("--iteration", type=int, default=None, help="Iteration number. If omitted, use the largest iteration parsed from filenames.")
     parser.add_argument("--checkpoint_path", type=str, default=None, help="Optional explicit path to checkpoint file.")
     parser.add_argument("--output_dir", type=str, default=None, help="Directory to store outputs. Default: heatmap_<name>/")
     parser.add_argument("--fig_title", type=str, default=None, help="Custom title for the heatmap figure.")
